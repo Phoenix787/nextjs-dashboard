@@ -55,8 +55,8 @@ export default function EditInvoiceForm({
           <div>
             {state.errors?.customerId &&
               state.errors.customerId.map((error) => (
-                <p className="mt-2 text-sm text-red-500">
-                  {error} key={error}
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
                 </p>
               ))}
           </div>
@@ -84,8 +84,8 @@ export default function EditInvoiceForm({
             <div>
               {state.errors?.amount &&
                 state.errors.amount.map((error) => (
-                  <p className="mt-2 text-sm text-red-500">
-                    {error} key={error}
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
                   </p>
                 ))}
             </div>
