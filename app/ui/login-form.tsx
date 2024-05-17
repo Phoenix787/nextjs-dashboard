@@ -66,7 +66,6 @@ export default function LoginForm() {
           aria-live="polite"
           aria-atomic="true"
         >
-          {/* Add form errors here */}
           {errorMessage && (
             <>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
@@ -80,10 +79,10 @@ export default function LoginForm() {
 }
 
 function LoginButton() {
-  const pending = useFormStatus();
+  const { pending } = useFormStatus();
 
   return (
-    <Button className="mt-4 w-full">
+    <Button className="mt-4 w-full" aria-disabled={pending}>
       Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
     </Button>
   );
