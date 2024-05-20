@@ -1,11 +1,12 @@
 'use server';
 
+import { signIn } from '@/app/auth';
 import { sql } from '@vercel/postgres';
 import { AuthError } from 'next-auth';
 import { revalidatePath } from 'next/cache';
+import { isRedirectError } from 'next/dist/client/components/redirect';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
-import { signIn } from '../auth';
 
 const FormSchema = z.object({
 	id: z.string(),
@@ -119,7 +120,14 @@ export async function authenticate(
 	formData: FormData,
 ) {
 	try {
-		await signIn('credentials', formData);
+		await signIn('credentials', {
+			email: formData.get('email') as string,
+			password: formData.get('password') as string,
+			redirectTo: '/dashboard',
+		});
+		// await signIn('credentials', formData);
+		// redirect('/dashboard');
+
 	} catch (error) {
 		if (error instanceof AuthError) {
 			switch (error.type) {
@@ -129,6 +137,9 @@ export async function authenticate(
 					return 'Something went wrong.';
 			}
 		}
-		throw error;
+		if (isRedirectError(error)) {
+			console.log('actions.ts authenticate error', error);
+			throw error;
+		}
 	}
 }
